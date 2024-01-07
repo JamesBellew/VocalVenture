@@ -220,7 +220,7 @@ else if (score === 12 && currentLevel ===3){
 
 }
 const handleDivClick = () => {
-  console.log("Div clicked! boiii");
+  console.log("Div clicked! boiiigg");
 };
 const handleGameStart = (startStatus) => {
   setIsGameStarted(startStatus);

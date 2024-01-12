@@ -9,6 +9,7 @@ export default {
       animation: {
         rotate180: 'rotate180 1s ease-in-out',
         growth: 'rotate360 1s ease-in-out',
+        fadeout: 'fadeout 2s ease-in-out',
         flipToWhite: 'flipToWhite 1s forwards',
         bounce1: 'bounce 0.6s ease-in-out infinite',
         bounce2: 'bounce 0.6s ease-in-out 0.2s infinite',
@@ -45,6 +46,12 @@ export default {
             // zIndex: 2,
           },
         },
+        fadeout: {
+          '0%': { opacity: 1 }, // Start fully visible
+          '100%': { opacity: 0 }, // End completely transparent
+        }
+        ,
+        
         bounce: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-5px)' },

@@ -1,7 +1,7 @@
 import React, { useState,useRef,useEffect } from 'react';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck,faXmark,faPlay,faHeartPulse, faClock, faMusic, faChartBar, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faCheck,faXmark,faPlay,faHeartPulse, faClock, faMusic, faChartBar, faMagnifyingGlass, faCircleXmark, faGear, faTableList } from '@fortawesome/free-solid-svg-icons';
 import ModeMenu from './ModeMenu';
 
 
@@ -293,7 +293,7 @@ const fetchRandomClip = async () => {
 };
 const quitHandler = ()=>{
   setClipUrl("");
-  setButtonText("Lets Start")
+  setButtonText("Start")
   setPoints(10)
   setPoints(0)
   setScore(0)
@@ -382,7 +382,9 @@ top-[-15px] left-[-5px]'>{songClipLength.toFixed(1)}</div>
 }
 {answerStyling == undefined && showPlayButton &&
 <>
-<button className='group-hover:scale-95 absolute text-7xl transition-all duration-150 cursor-pointer text-white ' onClick={playAudio}><FontAwesomeIcon icon={faPlay}/></button>
+<button className={` group-hover:scale-95 absolute  text-7xl transition-all duration-150 cursor-pointer text-white `} onClick={playAudio}><FontAwesomeIcon 
+className={`${shouldAnimatePlayBounce ? ' line-through custom-strike w-0 duration-1 disabled' : ''}`}
+icon={faPlay} /></button>
 <div className='absolute flex h-auto w-auto bottom-5'>
 <div className={`bg-white h-2 w-2 m-1 rounded-full ${shouldAnimatePlayBounce ? 'animate-bounce1' : ''}`}></div>
 <div className={`bg-white h-2 w-2 m-1 rounded-full ${shouldAnimatePlayBounce ? 'animate-bounce2' : ''}`}></div>
@@ -465,21 +467,21 @@ Next
 
 </div>
    )}
-  <div className="flex justify-center items-center w-full space-x-1">
+  <div className="flex justify-center bg-white/0 items-center w-full space-x-1">
 
-  <button className='btn ' onClick={quitHandler}>
- <span class='btnSpan '>Quit</span>
+  <button className='btn bg-white/0 shadow-none' onClick={quitHandler}>
+ <span class='btnSpan '><FontAwesomeIcon icon={faCircleXmark}></FontAwesomeIcon></span>
 </button>
 
-<button className='btn '>
- <span class='btnSpan '>Settings</span>
+<button className='btn bg-white/0 shadow-none '>
+ <span class='btnSpan '><FontAwesomeIcon icon={faGear}></FontAwesomeIcon></span>
 </button>
 
-<button className='btn ' onClick={modeClickHandler}>
- <span class='btnSpan '>Mode</span>
+<button className='btn bg-white/0 shadow-none ' onClick={modeClickHandler}>
+ <span class='btnSpan '><FontAwesomeIcon icon={faTableList}></FontAwesomeIcon></span>
 </button>
 
-<button className='btn ' onClick={fetchRandomClip}>
+<button className='btn bg-white/0 shadow-none ' onClick={fetchRandomClip}>
  <span class='btnSpan '>{buttonText}</span>
 </button>
 </div>

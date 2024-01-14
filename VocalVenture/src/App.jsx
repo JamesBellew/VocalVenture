@@ -201,7 +201,7 @@ console.log(answerStyling);
 // if(score<5 ){
 //   setCurrentLevel(0)
 //   showModal();
-// }
+// }no need for this 
 // else 
 if(score === 3){
   setCurrentLevel(1)

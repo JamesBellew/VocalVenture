@@ -126,8 +126,55 @@ function extractRandomClip(filteredSongs) {
             .run();
     });
 }
+function extractShortClip(filteredSongs){
+    return new Promise((resolve, reject) => {
+        const song = getRandomSong(filteredSongs); // Use the filtered songs array
+        const inputFile = song.path;
+        const outputFile = 'clip.mp3'; // You might want to generate a unique name here
 
+        const startTime = getRandomStartTime(1, 100);
+        const clipLength =10;
+        globalClipLength = clipLength;
+        const formattedStartTime = new Date(startTime * 1000).toISOString().substr(11, 8);
+        const outputFilePath = path.join(__dirname, 'clips', outputFile);
 
+        ffmpeg(inputFile)
+            .setStartTime(formattedStartTime)
+            .setDuration(clipLength)
+            .output(outputFilePath)
+            .on('end', function() {
+                console.log('Short Clip has been created: ' + outputFile);
+                resolve({ outputFile, song }); // Return both the file and song details
+            })
+            .on('error', function(err) {
+                console.error('An error occurred: ' + err.message);
+                reject(err);
+            })
+            .run();
+    });
+}
+
+app.get('/short-clip', async (req, res) => {
+    const level = req.query.level;
+    console.log(level);
+    console.log(globalClipLength);
+    try {
+        const filteredSongs = level ? songs.filter(song => song.level === level) : songs;
+        if (filteredSongs.length === 0) {
+            return res.status(404).send('No songs found for the specified level');
+        }
+        const { outputFile, song } = await extractShortClip(filteredSongs); // Pass the filtered list to the function
+        const clipUrl = `http://localhost:${port}/clips/${outputFile}`;
+        const songName = "Sillhouttes";
+        // const songLength = clipLength;
+        const album = "Single";
+        res.send({ clipPath: clipUrl , songName: song.name,
+            album: song.album, songLength: globalClipLength, songCover: song.cover});
+    } catch (error) {
+        console.error('Error extracting random clip:', error);
+        res.status(500).send('Error extracting random clip');
+    }
+});
 app.get('/random-clip', async (req, res) => {
     const level = req.query.level;
     console.log(level);
@@ -153,6 +200,6 @@ app.get('/random-clip', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-
+console.log(getRandomClipLength(1,60))
 // Extract a clip from a random song
 extractRandomClip(songs);
